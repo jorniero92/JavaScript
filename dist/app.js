@@ -36176,7 +36176,30 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
             $scope.model.title = title;
         });
     }]
-);;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
+);;// En el modulo moviedb, defino el controlador
+angular.module('pelisAngular').controller("MenuController", ["$scope", "$location", "paths", function($scope, $location, paths) { //Inyectamos dependencia de scope
+    //Scope init
+    $scope.model = {
+        selectedItem: paths.movies
+    };
+
+    $scope.paths = paths;
+
+    //Scope methods
+
+    $scope.getClassForItem = function(item) {
+        if ($scope.model.selectedItem == item) {
+            return "active";
+        } else {
+            return "";
+        }
+    };
+
+
+    $scope.$on("$locationChangeSuccess", function(evt, currentRoute) {
+        $scope.model.selectedItem = $location.path();
+    });
+}]);;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
     this.apiRequest = function(url) {
         //Hay que devolver las películas, no un objeto de la petición
         //Por lo que habrá que resolver el retorno de http.get
