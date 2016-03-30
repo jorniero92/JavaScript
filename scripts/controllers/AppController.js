@@ -7,7 +7,8 @@ angular.module("pelisAngular").controller("AppController",
 
         controller.titles = {};
         controller.titles[paths.login] = "Login";
-
+        controller.titles[paths.movies] = "Movies List";
+        controller.titles[paths.rented] = "Rented";
 
         //Model init
         $scope.model = {
@@ -21,7 +22,7 @@ angular.module("pelisAngular").controller("AppController",
 
         });
 
-        $scope.$on("ChangeTitle", function(evt, title){
+        $scope.$on("ChangeTitle", function(evt, title) {
             $scope.model.title = title;
         });
     }]

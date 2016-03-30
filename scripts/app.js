@@ -8,6 +8,7 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
     }).when(paths.newMovie, {
         templateUrl: 'views/NewMovie.html'
     }).when(paths.movieDetail, {
+        controller: 'MovieDetailController',
         templateUrl: 'views/MovieDetail.html'
     }).when(paths.movieUserList, {
         templateUrl: 'views/MovieUserList.html'

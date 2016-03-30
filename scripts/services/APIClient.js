@@ -30,15 +30,6 @@ angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "
         return this.apiRequest(url);
     };
 
-    this.getSeries = function() {
-        return this.apiRequest(apiPath.series);
-    };
-
-    this.getSerie = function(serieId) {
-        var url = URL.resolve(apiPath.serieDetail, { id: serieId });
-        return this.apiRequest(url);
-    };
-
     this.createMovie = function(movie) {
 
         //Crear el objeto diferido

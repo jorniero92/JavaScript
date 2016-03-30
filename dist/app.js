@@ -36132,6 +36132,7 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
     }).when(paths.newMovie, {
         templateUrl: 'views/NewMovie.html'
     }).when(paths.movieDetail, {
+        controller: 'MovieDetailController',
         templateUrl: 'views/MovieDetail.html'
     }).when(paths.movieUserList, {
         templateUrl: 'views/MovieUserList.html'
@@ -36158,7 +36159,8 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
 
         controller.titles = {};
         controller.titles[paths.login] = "Login";
-
+        controller.titles[paths.movies] = "Movies List";
+        controller.titles[paths.rented] = "Rented";
 
         //Model init
         $scope.model = {
@@ -36172,15 +36174,18 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
 
         });
 
-        $scope.$on("ChangeTitle", function(evt, title){
+        $scope.$on("ChangeTitle", function(evt, title) {
             $scope.model.title = title;
         });
     }]
-);;// En el modulo moviedb, defino el controlador
-angular.module('pelisAngular').controller("MenuController", ["$scope", "$location", "paths", function($scope, $location, paths) { //Inyectamos dependencia de scope
+);
+;// En el modulo pelisAngular, defino el controlador
+angular.module('pelisAngular').controller("MenuController", ["$scope", "$location", "paths", function($scope, $location, paths) {
+    //Inyectamos dependencia de scope
     //Scope init
     $scope.model = {
-        selectedItem: paths.movies
+        selectedItem: paths.login
+        //selectedItem: paths.movies
     };
 
     $scope.paths = paths;
@@ -36194,12 +36199,117 @@ angular.module('pelisAngular').controller("MenuController", ["$scope", "$locatio
             return "";
         }
     };
-
+    $scope.$watch("model.selectedItem", function(newValue, oldValue) {
+        $scope.$emit("OnMenuChange", newValue);
+    });
 
     $scope.$on("$locationChangeSuccess", function(evt, currentRoute) {
         $scope.model.selectedItem = $location.path();
     });
-}]);;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
+}]);
+;angular.module("pelisAngular").controller("MovieDetailController", ["$scope", "$routeParams", "$location", "APIClient", "paths",
+        function($scope, $routeParams, $location, APIClient, paths) {
+            //scope init
+            $scope.model = {};
+            $scope.uiState = 'loading';
+
+            // COntroller init
+            $scope.$emit("ChangeTitle", "Loading...");
+            APIClient.getMovie($routeParams.id).then(
+                //pelicula encontrada
+                function(movie) {
+                    $scope.model = movie;
+                    $scope.uiState = 'ideal';
+                    $scope.$emit("ChangeTitle", $scope.model.title);
+                },
+                //pelicula no encontrada
+                function(error) {
+                    $location.url(paths.notFound);
+                }
+            );
+
+        }
+    ]
+
+);;angular.module("pelisAngular").controller("MovieFormController", ["$scope", "APIClient", function($scope, APIClient) {
+
+    $scope.model = {};
+    $scope.successMessage = null;
+    $scope.errorMessage = null;
+
+    $scope.saveMovie = function() {
+        APIClient.createMovie($scope.model).then(
+            function(movie) {
+                $scope.successMessage = "Movie saved! <a href=\"#/movies/" +
+                    movie.id + "\">View new movie detail</a>";
+                $scope.model = {};
+                $scope.movieForm.$setPristine();
+            },
+            function(error) {
+                $scope.errorMessage = "Fatal error. The end is near";
+            }
+        )
+    };
+}]);
+;angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$log", "APIClient", "URL", "paths",
+    function($scope, $log, APIClient, URL, paths) {
+
+        //  $scope.uiState = 'blank';
+        /* Scope model init */
+        $scope.model = [];
+
+        $scope.uiState = 'loading';
+        
+        $scope.getMovieDetailURL = function(movie){
+            return URL.resolve(paths.movieDetail, {id: movie.id});
+        };
+
+        /* controller start*/
+        APIClient.getMovies().then(
+            // promesa resuelta
+            function(data) {
+                $log.log("SUCCESS", data);
+                $scope.model = data;
+                if ($scope.model.length == 0) {
+                    $scope.uiState = 'blank';
+                } else {
+                    $scope.uiState = 'ideal';
+                }
+            },
+            // promesa rechazada
+            function(data) {
+                $log.error("ERROR", data);
+                $scope.uiState = 'error';
+            }
+
+        );
+    }
+]);;angular.module("pelisAngular").directive("mediaItem", function() {
+    return {
+        restrict: "AE",
+        scope: {
+            model: "=item"
+        },
+        templateUrl: "views/mediaItem.html"
+    };
+});;angular.module("pelisAngular").directive("mediaItemList", function(){
+	return{
+		restrict: "AE",
+		scope: {
+			/* cuando uso model, sea model en el scope
+			model: "="
+			*/
+			//Pero para que en el scope se llame items hay que hacerlo asi:
+			model: "=items",
+			//asi lo hemos mapeado y cambiadod de nombre en el scope
+
+			//hay q hacer la llamada, poner los () a getDetailURL
+			getDetailUrl: "&"
+		},
+		templateUrl: "views/mediaItemList.html"
+
+	};
+});;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
     this.apiRequest = function(url) {
         //Hay que devolver las películas, no un objeto de la petición
         //Por lo que habrá que resolver el retorno de http.get
@@ -36228,15 +36338,6 @@ angular.module('pelisAngular').controller("MenuController", ["$scope", "$locatio
 
     this.getMovie = function(movieId) {
         var url = URL.resolve(apiPath.movieDetail, { id: movieId });
-        return this.apiRequest(url);
-    };
-
-    this.getSeries = function() {
-        return this.apiRequest(apiPath.series);
-    };
-
-    this.getSerie = function(serieId) {
-        var url = URL.resolve(apiPath.serieDetail, { id: serieId });
         return this.apiRequest(url);
     };
 
@@ -36270,20 +36371,21 @@ angular.module('pelisAngular').controller("MenuController", ["$scope", "$locatio
         for (var i in urlParts) {
             var urlPart = urlParts[i];
             if (urlPart.substr(0, 1) == ":") {
-            	var paramName = urlPart.substr(1);
-            	var paramValue = params[paramName] || null;
-            	if(paramValue == null){
-            		$log.error("URL.resolve error:", paramName, "not found in params dict. Check your 'params' value.");
-            		return;
-            	}
-            	finalURL.push(paramValue);            	
+                var paramName = urlPart.substr(1);
+                var paramValue = params[paramName] || null;
+                if (paramValue == null) {
+                    $log.error("URL.resolve error:", paramName, "not found in params dict. Check your 'params' value.");
+                    return;
+                }
+                finalURL.push(paramValue);
             } else {
-            	finalURL.push(urlPart);
+                finalURL.push(urlPart);
             }
         }
         return finalURL.join("/");
     }
-}]);;angular.module("pelisAngular").value("apiPath", {
+}]);
+;angular.module("pelisAngular").value("apiPath", {
 	movies: "/api/movies",
 	movieDetail: "/api/movies/:id"
 });
