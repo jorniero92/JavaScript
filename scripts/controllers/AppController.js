@@ -8,7 +8,6 @@ angular.module("pelisAngular").controller("AppController",
         controller.titles = {};
         controller.titles[paths.login] = "Login";
 
-
         //Model init
         $scope.model = {
             title: ""
@@ -21,8 +20,14 @@ angular.module("pelisAngular").controller("AppController",
 
         });
 
-        $scope.$on("ChangeTitle", function(evt, title){
+        $scope.$on("ChangeTitle", function(evt, title) {
             $scope.model.title = title;
         });
+
+        $scope.login = function() {
+            console.log("menuuu");
+        };
     }]
+
+
 );
