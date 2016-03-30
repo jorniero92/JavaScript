@@ -6,9 +6,9 @@ angular.module("pelisAngular").controller("AppController",
         var controller = this;
 
         controller.titles = {};
-        controller.titles[paths.login] = "Login";
+      
         controller.titles[paths.movies] = "Movies List";
-        controller.titles[paths.rented] = "Rented";
+        
 
         //Model init
         $scope.model = {

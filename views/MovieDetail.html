@@ -28,7 +28,12 @@
                     Date Created: {{ ::model.dateCreated | date:"dd/MM/yyyy" }}
                 </div>
             </div>
+            <div class="col-xs-6">
+                Rented: {{ ::model.username }}
+            </div>
+            <div class="col-xs-6">
+                <a href="#{{::reservMovie({ stuff: item }) }}" class="btn btn-default">Reserv</a>
+            </div>
         </div>
-        
     </div>
 </div>
