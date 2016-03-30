@@ -36127,12 +36127,23 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
     //Configuro las URLs de la aplicación
     $routeProvider.when(paths.login, {
         templateUrl: 'views/Login.html'
+    }).when(paths.movieList, {
+        templateUrl: 'views/MovieList.html'
+    }).when(paths.newMovie, {
+        templateUrl: 'views/NewMovie.html'
+    }).when(paths.movieDetail, {
+        templateUrl: 'views/MovieDetail.html'
+    }).when(paths.movieUserList, {
+        templateUrl: 'views/MovieUserList.html'
+    }).when(paths.movieRentList, {
+        templateUrl: 'views/MovieRentList.html'
     }).otherwise({
         templateUrl: 'views/404.html'
     });
 }]);
 ;angular.module("pelisAngular").constant("paths", {
 	login: "/",
+	
 	notFound: "/sorry"
 });angular.module("pelisAngular").controller("AppController",
 
@@ -36161,7 +36172,70 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
             $scope.model.title = title;
         });
     }]
-);;angular.module("URL", []).service("URL", ["$log", function($log) {
+);;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
+    this.apiRequest = function(url) {
+        //Hay que devolver las películas, no un objeto de la petición
+        //Por lo que habrá que resolver el retorno de http.get
+        //Crear el objeto diferido
+        var deferred = $q.defer();
+        //Hacer trabajo asíncrono
+        $http.get(url).then(
+            function(response) {
+                //Resolvemos promesa
+                deferred.resolve(response.data);
+            },
+            function(response) {
+                //Rechazar promesa
+                //Esta gestión de error es bastante pobre, habría que mejorarla
+                deferred.reject(response.data);
+            }
+        );
+        //Devolver promesa      
+        return deferred.promise;
+        // return $http.get('/api/movies');
+    }
+
+    this.getMovies = function() {
+        return this.apiRequest(apiPath.movies);
+    };
+
+    this.getMovie = function(movieId) {
+        var url = URL.resolve(apiPath.movieDetail, { id: movieId });
+        return this.apiRequest(url);
+    };
+
+    this.getSeries = function() {
+        return this.apiRequest(apiPath.series);
+    };
+
+    this.getSerie = function(serieId) {
+        var url = URL.resolve(apiPath.serieDetail, { id: serieId });
+        return this.apiRequest(url);
+    };
+
+    this.createMovie = function(movie) {
+
+        //Crear el objeto diferido
+        var deferred = $q.defer();
+        //Hacer trabajo asíncrono
+        $http.post(apiPath.movies, movie).then(
+            function(response) {
+                //Resolvemos promesa
+                deferred.resolve(response.data);
+            },
+            function(response) {
+                //Rechazar promesa
+                //Esta gestión de error es bastante pobre, habría que mejorarla
+                deferred.reject(response.data);
+            }
+        );
+        //Devolver promesa      
+        return deferred.promise;
+        // return $http.get('/api/movies');
+    };
+
+}]);
+;angular.module("URL", []).service("URL", ["$log", function($log) {
 
     this.resolve = function(url, params) {
         var finalURL = [];
@@ -36182,4 +36256,7 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
         }
         return finalURL.join("/");
     }
-}]);
+}]);;angular.module("pelisAngular").value("apiPath", {
+	movies: "/api/movies",
+	movieDetail: "/api/movies/:id"
+});
