@@ -36292,24 +36292,17 @@ angular.module('pelisAngular').controller("MenuController", ["$scope", "$locatio
         },
         templateUrl: "views/mediaItem.html"
     };
-});;angular.module("pelisAngular").directive("mediaItemList", function(){
-	return{
-		restrict: "AE",
-		scope: {
-			/* cuando uso model, sea model en el scope
-			model: "="
-			*/
-			//Pero para que en el scope se llame items hay que hacerlo asi:
-			model: "=items",
-			//asi lo hemos mapeado y cambiadod de nombre en el scope
-
-			//hay q hacer la llamada, poner los () a getDetailURL
-			getDetailUrl: "&"
-		},
-		templateUrl: "views/mediaItemList.html"
-
-	};
-});;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
+});;angular.module("pelisAngular").directive("mediaItemList", function() {
+    return {
+        restrict: "AE",
+        scope: {
+            model: "=items",
+            getDetailUrl: "&"
+        },
+        templateUrl: "views/mediaItemList.html"
+    };
+});
+;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
     this.apiRequest = function(url) {
         //Hay que devolver las películas, no un objeto de la petición
         //Por lo que habrá que resolver el retorno de http.get
