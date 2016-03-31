@@ -3,7 +3,8 @@ angular.module("pelisAngular").directive("mediaItemList", function() {
         restrict: "AE",
         scope: {
             model: "=items",
-            getDetailUrl: "&"
+            getDetailUrl: "&",
+            rentMovie: "&"
         },
         templateUrl: "views/mediaItemList.html"
     };

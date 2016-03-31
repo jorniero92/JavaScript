@@ -1,3 +1,5 @@
+<div ng-controller="MoviesListController">{{ hola2 = "hola"}}</div>
+
 <table class="table table-striped">
     <thead>
         <tr>
@@ -7,7 +9,6 @@
             <th>Rating</th>
             <th>
                 <input type="search" ng-model="query.title" placeholder="Search..." class="from-control">
-
             </th>
         </tr>
     </thead>
@@ -17,8 +18,7 @@
                 <img ng-src="{{::item.poster_url}}" alt="{{::item.title}}'s poster" title="{{::item.title}}">
             </td>
             <td>
-                <b>{{::item.title}}</b> 
-                {{::model.uername}} :User
+                <b>{{::item.title}}</b> {{::item.username}} :User
             </td>
             <td>
                 {{::item.release_date | date: "dd/MM/yyyy"}}
@@ -27,10 +27,9 @@
                 {{::item.rating}}
             </td>
             <td>
-                <a href="#{{::getDetailUrl({ stuff: item }) }}" class="btn btn-default">View</a>
-                <a href="#{{::reservMovie({ stuff: item }) }}" class="btn btn-default">Reserv</a>
+                <a href="#{{::getDetailUrl({ stuff: item }) }}" class="btn btn-default">View</a> Rented: {{ scope }} RentedId: {{ menu }}
+                <button ng-click="rentMovie({ stuff: item })" class="btn btn-default">Rent</button>
             </td>
-            No harcodear mi nombre de usuario con el que lo tiene reservado. Crear una fila debajo de todo menos del poster
         </tr>
     </tbody>
 </table>

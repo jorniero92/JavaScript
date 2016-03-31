@@ -6,9 +6,26 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
         $scope.model = [];
 
         $scope.uiState = 'loading';
-        
-        $scope.getMovieDetailURL = function(movie){
-            return URL.resolve(paths.movieDetail, {id: movie.id});
+
+
+        $scope.getMovieDetailURL = function(movie) {
+            return URL.resolve(paths.movieDetail, { id: movie.id });
+        };
+
+        $scope.rentMovie = function(movie) {
+            console.log(movie.userRent);
+            console.log($scope);
+            $scope.rentedId = movie.id;
+
+            if (!movie.userRent) {
+                console.log("No esta alquilada");
+                /*Alquilamos pelicula*/
+                $scope.rented = true;
+            } else {
+                console.log("Esta alquilada");
+                /*Devolvemos alert indicando error*/
+                $scope.rented = false;
+            }
         };
 
         /* controller start*/
