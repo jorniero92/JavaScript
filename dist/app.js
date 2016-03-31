@@ -36150,7 +36150,16 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
 	movieUserList: "/moviesUser",
 	movieRentList: "/moviesRented",
 	notFound: "/sorry"
-});angular.module("pelisAngular").controller("AppController",
+});angular.module("pelisAngular").controller("RentedListController", ["$scope", "$log", "APIClient", "URL", "paths",
+    function($scope, $log, APIClient, URL, paths) {
+
+        /* Scope model init */
+        $scope.model = [];
+
+        $scope.uiState = 'loading';
+      
+    }
+]);;angular.module("pelisAngular").controller("AppController",
 
     //Cada vez que queramos utilizar un servicio lo tenemos que inyectar tanto como parametro como
     //en la funcion
@@ -36158,9 +36167,9 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
         var controller = this;
 
         controller.titles = {};
-        controller.titles[paths.login] = "Login";
+      
         controller.titles[paths.movies] = "Movies List";
-        controller.titles[paths.rented] = "Rented";
+        
 
         //Model init
         $scope.model = {
@@ -36284,6 +36293,42 @@ angular.module('pelisAngular').controller("MenuController", ["$scope", "$locatio
 
         );
     }
+]);;angular.module("pelisAngular").controller("RentedListController", ["$scope", "$log", "APIClient", "URL", "paths",
+    function($scope, $log, APIClient, URL, paths) {
+
+        /* Scope model init */
+        $scope.model = [];
+
+        $scope.uiState = 'loading';
+        /*
+        $scope.getMovieRentedDetailURL = function(movie){
+            return URL.resolve(paths.movieDetail, {id: movie.id});
+        };
+        */
+        $scope.getMovieDetailURL = function(movie){
+            return URL.resolve(paths.movieDetail, {id: movie.id});
+        };
+        
+        /* controller start*/
+        APIClient.getMovies().then(
+            // promesa resuelta
+            function(data) {
+                $log.log("SUCCESS", data);
+                $scope.model = data;
+                if ($scope.model.length == 0) {
+                    $scope.uiState = 'blank';
+                } else {
+                    $scope.uiState = 'ideal';
+                }
+            },
+            // promesa rechazada
+            function(data) {
+                $log.error("ERROR", data);
+                $scope.uiState = 'error';
+            }
+
+        );
+    }
 ]);;angular.module("pelisAngular").directive("mediaItem", function() {
     return {
         restrict: "AE",
@@ -36292,24 +36337,17 @@ angular.module('pelisAngular').controller("MenuController", ["$scope", "$locatio
         },
         templateUrl: "views/mediaItem.html"
     };
-});;angular.module("pelisAngular").directive("mediaItemList", function(){
-	return{
-		restrict: "AE",
-		scope: {
-			/* cuando uso model, sea model en el scope
-			model: "="
-			*/
-			//Pero para que en el scope se llame items hay que hacerlo asi:
-			model: "=items",
-			//asi lo hemos mapeado y cambiadod de nombre en el scope
-
-			//hay q hacer la llamada, poner los () a getDetailURL
-			getDetailUrl: "&"
-		},
-		templateUrl: "views/mediaItemList.html"
-
-	};
-});;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
+});;angular.module("pelisAngular").directive("mediaItemList", function() {
+    return {
+        restrict: "AE",
+        scope: {
+            model: "=items",
+            getDetailUrl: "&"
+        },
+        templateUrl: "views/mediaItemList.html"
+    };
+});
+;angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
     this.apiRequest = function(url) {
         //Hay que devolver las películas, no un objeto de la petición
         //Por lo que habrá que resolver el retorno de http.get

@@ -1,1 +1,23 @@
-<h1> New Movie </h1>
+<div ng-controller="AddMovieController">
+    <h1> Add Movie </h1>
+    <td>
+        <label>Movie Title</label>
+        <input type="text" ng-model="query.title" placeholder="Title..." class="from-control">
+    </td>
+    <td>
+        <label>Poster</label>
+        <input type="url" ng-model="query.title" placeholder="URL Image..." class="from-control">
+    </td>
+    <td>
+        <label>Year</label>
+        <input type="date" ng-model="query.title" class="from-control">
+    </td>
+    <td>
+        <label>Rating</label>
+        <input type="number" min="0" max="10" step="1" value="0" ng-model="query.title" placeholder="Points" class="from-control">
+    </td>
+    <td>
+        <label>Send</label>
+        <a href="#{{::reservMovie({ stuff: item }) }}" class="btn btn-default">Add Movie</a>
+    </td>
+</div>
