@@ -21,7 +21,6 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
 
         $scope.rentMovie = function(movie) {
             console.log(movie.userRent);
-            console.log($scope);
             $scope.rentedId = movie.id;
 
             if (!movie.userRent) {

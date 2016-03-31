@@ -30,19 +30,15 @@ angular.module("pelisAngular").controller("AppController",
         });
 
         $scope.login = function() {
-            console.log($scope.model);
             $scope.menu = true;
-            console.log($scope);
-            console.log("menuuu");
             $location.url(paths.movieList);
         };
 
 
         $scope.$on("getUser", function() {
-            console.log('SALTA GETUSER');
-            console.log($scope.model);
-            console.log('SALTA GETUSERssss');
             $scope.$broadcast("sendUsername", $scope.model.username);
         });
+
+
     }]
 );

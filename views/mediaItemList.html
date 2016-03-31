@@ -1,5 +1,3 @@
-<div ng-controller="MoviesListController">{{ hola2 = "hola"}}</div>
-
 <table class="table table-striped">
     <thead>
         <tr>
@@ -18,7 +16,6 @@
                 <img ng-src="{{::item.poster_url}}" alt="{{::item.title}}'s poster" title="{{::item.title}}">
             </td>
             <td>
-
                 <b>{{::item.title}}</b> {{::item.username}} :User
             </td>
             <td>
@@ -30,6 +27,12 @@
             <td>
                 <a href="#{{::getDetailUrl({ stuff: item }) }}" class="btn btn-default">View</a> Rented: {{ scope }} RentedId: {{ menu }}
                 <button ng-click="rentMovie({ stuff: item })" class="btn btn-default">Rent</button>
+                <div class="alert alert-success" ng-show="rented==true">
+                    <strong>Success!</strong> Indicates a successful or positive action.
+                </div>
+                <div class="alert alert-danger" ng-show="rented==false">
+                    <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                </div>
             </td>
         </tr>
     </tbody>
