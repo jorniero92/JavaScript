@@ -6,7 +6,7 @@ angular.module("pelisAngular").controller("AppController",
         var controller = this;
 
         controller.titles = {};
-      
+
         controller.titles[paths.movies] = "Movies List";
         
 
@@ -31,7 +31,7 @@ angular.module("pelisAngular").controller("AppController",
 
         $scope.login = function() {
             console.log($scope.model);
-            $scope.menu=true;
+            $scope.menu = true;
             console.log($scope);
             console.log("menuuu");
             $location.url(paths.movieList);
