@@ -8,14 +8,18 @@
 </head>
 
 <body>
-    <div ng-include="'views/Menu.html'"></div>
+    <div ng-include="'views/Menu.html'"  ng-show="menu==true"></div>
     <div class="container">
         <div class="row">
+        Usuario: {{ model.username }}
+        Menu: {{ model }}
             <div class="col-xs-12">
                 <div ng-view></div>
+
             </div>
         </div>
     </div>
+    
     <script src="dist/app.js"></script>
 </body>
 
