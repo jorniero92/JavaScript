@@ -8,7 +8,7 @@ angular.module("pelisAngular").controller("AppController",
         controller.titles = {};
 
         controller.titles[paths.movies] = "Movies List";
-        
+
 
 
         //Model init
@@ -36,5 +36,13 @@ angular.module("pelisAngular").controller("AppController",
             console.log("menuuu");
             $location.url(paths.movieList);
         };
+
+
+        $scope.$on("getUser", function() {
+            console.log('SALTA GETUSER');
+            console.log($scope.model);
+            console.log('SALTA GETUSERssss');
+            $scope.$broadcast("sendUsername", $scope.model.username);
+        });
     }]
 );

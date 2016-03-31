@@ -7,6 +7,13 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
 
         $scope.uiState = 'loading';
 
+        $scope.$emit("getUser");
+
+        $scope.$on("sendUsername", function(evt, data){
+            console.log('SALTA SENDUSERNAME');
+            console.log(data);
+            $scope.username = data;
+        });
 
         $scope.getMovieDetailURL = function(movie) {
             return URL.resolve(paths.movieDetail, { id: movie.id });
@@ -20,7 +27,7 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
             if (!movie.userRent) {
                 console.log("No esta alquilada");
                 /*Alquilamos pelicula con un post*/
-                APIClient.rentMovie(movie, 'juan').then(
+                APIClient.rentMovie(movie, $scope.username).then(
                     // promesa resuelta
                     function(data) {
                         $log.log("SUCCESS", data);
