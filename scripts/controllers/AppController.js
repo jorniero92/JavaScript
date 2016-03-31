@@ -8,8 +8,7 @@ angular.module("pelisAngular").controller("AppController",
         controller.titles = {};
 
         controller.titles[paths.movies] = "Movies List";
-
-        controller.titles[paths.login] = "Login";
+        
 
 
         //Model init

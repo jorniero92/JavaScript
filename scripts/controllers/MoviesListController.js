@@ -38,6 +38,7 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
                     $scope.uiState = 'blank';
                 } else {
                     $scope.uiState = 'ideal';
+                    $scope.$emit("ChangeTitle", "Movies");
                 }
             },
             // promesa rechazada
