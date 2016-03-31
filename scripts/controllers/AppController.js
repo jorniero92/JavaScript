@@ -13,6 +13,8 @@ angular.module("pelisAngular").controller("AppController",
             title: ""
         }
 
+        $scope.menu = false;
+
 
         $scope.$on("$locationChangeSuccess", function(evt, currentRoute) {
             console.log("$locationChangeSuccess", $location.path());
@@ -25,9 +27,11 @@ angular.module("pelisAngular").controller("AppController",
         });
 
         $scope.login = function() {
+            console.log($scope.model);
+            $scope.menu=true;
+            console.log($scope);
             console.log("menuuu");
+            $location.url(paths.movieList);
         };
     }]
-
-
 );

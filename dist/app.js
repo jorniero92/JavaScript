@@ -36164,6 +36164,8 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
             title: ""
         }
 
+        $scope.menu = false;
+
 
         $scope.$on("$locationChangeSuccess", function(evt, currentRoute) {
             console.log("$locationChangeSuccess", $location.path());
@@ -36176,11 +36178,13 @@ angular.module("pelisAngular", ['ngRoute', 'ngSanitize', 'URL']).config(['$route
         });
 
         $scope.login = function() {
+            console.log($scope.model);
+            $scope.menu=true;
+            console.log($scope);
             console.log("menuuu");
+            $location.url(paths.movieList);
         };
     }]
-
-
 );
 ;angular.module('pelisAngular').controller("LoginController", ["$scope", "APIClient", function($scope, APIClient) {
     //Scope init
