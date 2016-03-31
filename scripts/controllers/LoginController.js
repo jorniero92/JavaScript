@@ -1,16 +1,17 @@
-angular.module('pelisAngular').controller("LoginController", ["$scope", "APIClient", function($scope, APIClient) {
+angular.module('pelisAngular').controller("LoginController", ["$scope","HtmlStorage" "APIClient", function($scope, HtmlStorage, APIClient) {
     //Scope init
     $scope.model = [];
-    $scope.$emit("ChangeTitle", "Login");
     $scope.successMessage = null;
     $scope.errorMessage = null;
     //Scope methods
-    
+    $scope.$emit("ChangeTitle", "Login");
+
 
     //Al hacer login no es necesario que hagamos BD de usuarios ya que se un login fake
     //Simplemente en el modelo mantenemos el usuario y cambiamos la vista a peliculas
     $scope.login = function() {
-        //console.log("menuuu");
+        //preguntar
+        HtmlStorage.user = localStorage.getItem(username);
         $scope.hideMenu = true;
     };
 
