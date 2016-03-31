@@ -1,23 +1,45 @@
-<div ng-controller="AddMovieController">
+<div class="text-center" ng-controller="AddMovieController">
     <h1> Add Movie </h1>
-    <td>
-        <label>Movie Title</label>
-        <input type="text" ng-model="query.title" placeholder="Title..." class="from-control">
-    </td>
-    <td>
-        <label>Poster</label>
-        <input type="url" ng-model="query.title" placeholder="URL Image..." class="from-control">
-    </td>
-    <td>
-        <label>Year</label>
-        <input type="date" ng-model="query.title" class="from-control">
-    </td>
-    <td>
-        <label>Rating</label>
-        <input type="number" min="0" max="10" step="1" value="0" ng-model="query.title" placeholder="Points" class="from-control">
-    </td>
-    <td>
-        <label>Send</label>
-        <a href="#{{::reservMovie({ stuff: item }) }}" class="btn btn-default">Add Movie</a>
-    </td>
+    <div class="col-sm-4"></div>
+    <div class="col-sm-4">
+        <form name="createMovie" novalidate class="form-signin" ng-submit="addMovie()">
+            <label for="movieTitle">Movie Title</label>
+            <br>
+            <input type="text" name="movieTitle" placeholder="Title..." class="form-control" autofocus required ng-model="model.title">
+            <br>
+            <div class="text-danger" ng-show="createMovie.movieTitle.$dirty && createMovie.movieTitle.$error.required">
+                Title is required
+            </div>
+            <br>
+            <label for="poster">Poster</label>
+            <br>
+            <input type="url" name="poster" placeholder="URL Image..." class="form-control" required ng-model="model.poster_url">
+            <br>
+            <div class="text-danger" ng-show="createMovie.poster.$dirty && createMovie.poster.$error.required">
+                Url is required
+            </div>
+            <br>
+            <label for="year">Year</label>
+            <br>
+            <input type="date" name="year" class="form-control" required ng-model="model.release_date">
+            <br>
+            <div class="text-danger" ng-show="createMovie.year.$dirty && createMovie.year.$error.required">
+                <br> Date is required
+            </div>
+            <br>
+            <label for="rating">Rating</label>
+            <br>
+            <input type="number" min="0" max="10" step="1" value="0" name="rating" placeholder="Points" class="form-control" required ng-model="model.rating">
+            <br>
+            <div class="text-danger" ng-show="createMovie.rating.$dirty && createMovie.rating.$error.required">
+                <br> Rating is required
+            </div>
+            <br>
+            <label for="overview">Overview (Optional)</label>
+            <br>
+            <textarea badwords type="text" name="overview" placeholder="Overview" class="form-control" ng-model="model.overview" rows="5"></textarea>
+            <br>
+            <button class="btn btn-lg btn-primary btn-block" type="submit" ng-disabled="!createMovie.$valid">Add Movie</button>
+        </form>
+    </div>
 </div>

@@ -5,11 +5,7 @@ angular.module("pelisAngular").controller("RentedListController", ["$scope", "$l
         $scope.model = [];
 
         $scope.uiState = 'loading';
-        /*
-        $scope.getMovieRentedDetailURL = function(movie){
-            return URL.resolve(paths.movieDetail, {id: movie.id});
-        };
-        */
+       
         $scope.getMovieDetailURL = function(movie){
             return URL.resolve(paths.movieDetail, {id: movie.id});
         };

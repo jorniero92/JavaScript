@@ -6,10 +6,11 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
         $scope.model = [];
 
         $scope.uiState = 'loading';
-        
-        $scope.getMovieDetailURL = function(movie){
-            return URL.resolve(paths.movieDetail, {id: movie.id});
+
+        $scope.getMovieDetailURL = function(movie) {
+            return URL.resolve(paths.movieDetail, { id: movie.id });
         };
+
 
         /* controller start*/
         APIClient.getMovies().then(
@@ -21,6 +22,7 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
                     $scope.uiState = 'blank';
                 } else {
                     $scope.uiState = 'ideal';
+                    $scope.$emit("ChangeTitle", "Movies");
                 }
             },
             // promesa rechazada

@@ -30,25 +30,28 @@ angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "
         return this.apiRequest(url);
     };
 
+    /*crear una nueva pelicula, hacer un post a la URL */
     this.createMovie = function(movie) {
-
-        //Crear el objeto diferido
-        var deferred = $q.defer();
-        //Hacer trabajo asíncrono
+        // Crear el objeto diferido
+        var deffered = $q.defer();
+        console.log("model.username",model.username );
+        
+        // hacer asincrono el trabajo
         $http.post(apiPath.movies, movie).then(
+            //peticion ok
             function(response) {
-                //Resolvemos promesa
-                deferred.resolve(response.data);
+                //resolver la promesa
+                console.log("data", response.data);
+                deffered.resolve(response.data, model.username);
             },
+            //peticion KO
             function(response) {
-                //Rechazar promesa
-                //Esta gestión de error es bastante pobre, habría que mejorarla
-                deferred.reject(response.data);
+                //rechazar la promesa
+                deffered.reject(response.data);
             }
         );
-        //Devolver promesa      
-        return deferred.promise;
-        // return $http.get('/api/movies');
+        //devolver la promesa
+        return deffered.promise;
     };
 
 }]);
