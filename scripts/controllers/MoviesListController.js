@@ -19,8 +19,19 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
 
             if (!movie.userRent) {
                 console.log("No esta alquilada");
-                /*Alquilamos pelicula*/
-                $scope.rented = true;
+                /*Alquilamos pelicula con un post*/
+                APIClient.rentMovie(movie, 'juan').then(
+                    // promesa resuelta
+                    function(data) {
+                        $log.log("SUCCESS", data);
+                        $scope.rented = true;
+                    },
+                    // promesa rechazada
+                    function(data) {
+                        $log.error("ERROR", data);
+                        $scope.uiState = 'error';
+                    }
+                );
             } else {
                 console.log("Esta alquilada");
                 /*Devolvemos alert indicando error*/
@@ -28,7 +39,6 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
             }
         };
 
-        /* controller start*/
         APIClient.getMovies().then(
             // promesa resuelta
             function(data) {
