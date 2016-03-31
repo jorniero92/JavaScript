@@ -12,4 +12,11 @@ style.css
 
 # DB
 
+# archivos db
 db/
+
+dist/
+
+#python
+*.py*
+
