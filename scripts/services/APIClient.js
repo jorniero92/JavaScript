@@ -38,7 +38,7 @@ angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "
         
         // hacer asincrono el trabajo
         $http.post(apiPath.movies, movie).then(
-            console.log("Api paths", apiPath.movies);
+            //console.log("Api paths", apiPath.movies);
             //peticion ok
             function(response) {
                 //resolver la promesa

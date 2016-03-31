@@ -1,4 +1,4 @@
-angular.module('pelisAngular').controller("LoginController", ["$scope","HtmlStorage" "APIClient", function($scope, HtmlStorage, APIClient) {
+angular.module('pelisAngular').controller("LoginController", ["$scope","HtmlStorage", "APIClient", function($scope, HtmlStorage, APIClient) {
     //Scope init
     $scope.model = [];
     $scope.successMessage = null;
