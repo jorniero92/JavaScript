@@ -27,11 +27,11 @@
             <td>
                 <a href="#{{::getDetailUrl({ stuff: item }) }}" class="btn btn-default">View</a> Rented: {{ scope }} RentedId: {{ menu }}
                 <button ng-click="rentMovie({ stuff: item })" class="btn btn-default">Rent</button>
-                <div class="alert alert-success" ng-show="rented==true">
-                    <strong>Success!</strong> Indicates a successful or positive action.
+                <div class="alert alert-success" ng-show="rented==true && rentedId=={{item.id}}">
+                    <strong>Success!</strong> The movie has been rented.
                 </div>
-                <div class="alert alert-danger" ng-show="rented==false">
-                    <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+                <div class="alert alert-danger" ng-show="rented==false && rentedId=={{item.id}}">
+                    <strong>Danger!</strong> The movie is already rented.
                 </div>
             </td>
         </tr>
