@@ -1,8 +1,12 @@
 angular.module("pelisAngular").service("HtmlStorage", ["$http", "$q", "apiPath", "URL", function($http, $q, apiPath, URL) {
 
-this.user = null;
-localStorage.setItem("username", model.username);
-console.log("localStorage.getItem", localStorage.getItem);
-localStorage.getItem("username", model.username);
+    this.user = null;
+
+    this.saveUser = function(username) {
+        localStorage.setItem("username", username);
+    };
+    this.getUser = function() {
+        localStorage.get("username");
+    };
 
 }]);

@@ -36,8 +36,6 @@ angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "
         movie['userRent'] = username;
 
         // hacer asincrono el trabajo
-        console.log("ruta:", apiPath.movies);
-        console.log("movie:", movie);
         var url = URL.resolve(apiPath.movieDetail, { id: movie.id });
 
         $http.put(url, movie).then(
@@ -45,7 +43,6 @@ angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "
             //peticion ok
             function(response) {
                 //resolver la promesa
-                console.log("data DATOS DEL PUT", response.data);
                 deffered.resolve(response.data);
             },
             //peticion KO
@@ -56,7 +53,7 @@ angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "
         );
         //devolver la promesa
         return deffered.promise;
-    }
+    };
 
     /*crear una nueva pelicula, hacer un post a la URL */
     this.createMovie = function(movie) {
@@ -69,7 +66,6 @@ angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "
             //peticion ok
             function(response) {
                 //resolver la promesa
-                console.log("data DATOS DEL POST", response.data);
                 deffered.resolve(response.data);
             },
             //peticion KO
@@ -81,7 +77,7 @@ angular.module("pelisAngular").service("APIClient", ["$http", "$q", "apiPath", "
         //devolver la promesa
         return deffered.promise;
     };
-    
+
     /*Elimina una nueva pelicula */
     this.deleteMovie = function(movie) {
         // Crear el objeto diferido

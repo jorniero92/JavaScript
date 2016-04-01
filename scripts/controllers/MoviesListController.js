@@ -8,8 +8,9 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
         $scope.uiState = 'loading';
 
         $scope.$emit("getUser");
+        $scope.hideMenu = true;
 
-        $scope.$on("sendUsername", function(evt, data){
+        $scope.$on("sendUsername", function(evt, data) {
             console.log('SALTA SENDUSERNAME');
             console.log(data);
             $scope.username = data;
