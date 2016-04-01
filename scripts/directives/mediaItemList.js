@@ -4,7 +4,9 @@ angular.module("pelisAngular").directive("mediaItemList", function() {
         scope: {
             model: "=items",
             getDetailUrl: "&",
-            rentMovie: "&"
+            rentMovie: "&",
+            rented: "=",
+            rentedId: "="
         },
         templateUrl: "views/mediaItemList.html"
     };

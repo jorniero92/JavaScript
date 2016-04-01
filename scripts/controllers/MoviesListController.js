@@ -20,13 +20,13 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
         };
 
         $scope.rentMovie = function(movie) {
-            console.log(movie.userRent);
+            console.log("Pelicula: ", movie.id);
             $scope.rentedId = movie.id;
 
             if (!movie.userRent) {
                 console.log("No esta alquilada");
                 /*Alquilamos pelicula con un post*/
-                APIClient.rentMovie(movie, $scope.username).then(
+                APIClient.rentMovie(movie, 'pepe').then(
                     // promesa resuelta
                     function(data) {
                         $log.log("SUCCESS", data);

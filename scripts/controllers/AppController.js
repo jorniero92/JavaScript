@@ -36,6 +36,7 @@ angular.module("pelisAngular").controller("AppController",
 
 
         $scope.$on("getUser", function() {
+            console.log("Salta getUser", $scope.model.username);
             $scope.$broadcast("sendUsername", $scope.model.username);
         });
 
