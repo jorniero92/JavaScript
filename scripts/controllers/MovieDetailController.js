@@ -3,8 +3,8 @@ angular.module("pelisAngular").controller("MovieDetailController", ["$scope", "$
             //scope init
             $scope.model = {};
             $scope.uiState = 'loading';
-            $scope.hideMenu = true;
-            // Controller init
+
+
             $scope.$emit("ChangeTitle", "Loading...");
             APIClient.getMovie($routeParams.id).then(
                 //pelicula encontrada
