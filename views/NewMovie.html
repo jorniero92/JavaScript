@@ -20,6 +20,14 @@
                         Url is required
                     </div>
                     <br>
+                    <label for="movie_url">Movie</label>
+                    <br>
+                    <input type="url" name="movie_url" placeholder="URL Image..." class="form-control" required ng-model="model.poster_url">
+                    <br>
+                    <div class="text-danger" ng-show="createMovie.movie_url.$dirty && createMovie.movie_url.$error.required && createMovie.movie_url.url">
+                        Url is required
+                    </div>
+                    <br>
                 </div>
                 <div class="col-sm-3">
                     <label for="year">Year</label>

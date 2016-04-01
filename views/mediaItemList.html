@@ -11,7 +11,7 @@
         </tr>
     </thead>
     <tbody>
-        <tr ng-repeat="item in model | filter:query">
+        <tr ng-if="userRented(item.userRent) == true" ng-repeat="item in model | filter:query">
             <td>
                 <img ng-src="{{::item.poster_url}}" alt="{{::item.title}}'s poster" title="{{::item.title}}">
             </td>

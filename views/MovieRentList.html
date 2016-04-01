@@ -8,6 +8,7 @@
         Error while loading data
     </div>
     <div ng-include="'views/ProgressBar.html'" ng-show="uiState=='loading'"></div>
-    <media-item-list items="model" get-detail-url="getMovieDetailURL(stuff)" ng-show="uiState=='ideal'">
-    </media-item-list>
+    <div ng-if="userRented(data.userRent) == true">
+        <media-item-list items="model" get-detail-url="getMovieDetailURL(stuff)" ng-show="uiState=='ideal'"></media-item-list>
+    </div>
 </div>

@@ -9,7 +9,7 @@
                 The username is required
             </div>
             <label for="password" class="sr-only">Password</label>
-            <input type="password" name="password" required class="form-control" ng-model="model.password" placeholder="Password" autofocus>
+            <input type="password" name="password" minlength="4" required class="form-control" ng-model="model.password" placeholder="Password" autofocus>
             <div class="text-danger" ng-show="loginForm.password.$dirty && loginForm.password.$error.required">
                 The password is required
             </div>
