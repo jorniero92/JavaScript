@@ -1,5 +1,5 @@
-angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$log", "APIClient", "URL", "paths",
-    function($scope, $log, APIClient, URL, paths) {
+angular.module("pelisAngular").controller("MoviesListController", ["$scope", "HtmlStorage","$log", "APIClient", "URL", "paths",
+    function($scope, HtmlStorage, $log, APIClient, URL, paths) {
 
         //  $scope.uiState = 'blank';
         /* Scope model init */
@@ -27,9 +27,10 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
             if (!movie.userRent) {
                 console.log("No esta alquilada");
                 /*Alquilamos pelicula con un post*/
-                APIClient.rentMovie(movie, 'pepe').then(
+                APIClient.rentMovie(movie, HtmlStorage.getUser()).then(
                     // promesa resuelta
                     function(data) {
+                        console.log("get Username",HtmlStorage.getUser());
                         $log.log("SUCCESS", data);
                         $scope.rented = true;
                     },

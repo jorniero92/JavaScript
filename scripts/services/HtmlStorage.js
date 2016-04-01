@@ -4,9 +4,10 @@ angular.module("pelisAngular").service("HtmlStorage", ["$http", "$q", "apiPath",
 
     this.saveUser = function(username) {
         localStorage.setItem("username", username);
+        console.log("username save User", username);
     };
     this.getUser = function() {
-        localStorage.get("username");
+        return localStorage.getItem("username");
     };
-
+    
 }]);
