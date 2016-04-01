@@ -12,9 +12,7 @@ angular.module("pelisAngular").controller("AddMovieController", ["$scope", "$loc
 
         $scope.addMovie = function() {
             APIClient.createMovie($scope.model).then(
-                function(movie) {
-                    
-                    $scope.menu = true;
+                function(movie) {                
                     $location.url(paths.movieList);
                     $scope.successMessage = "Movie saved! <a href=\"#/movies/" +
                         movie.id + "\">View new movie detail</a>";

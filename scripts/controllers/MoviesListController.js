@@ -1,20 +1,14 @@
-angular.module("pelisAngular").controller("MoviesListController", ["$scope", "HtmlStorage","$log", "APIClient", "URL", "paths",
-    function($scope, HtmlStorage, $log, APIClient, URL, paths) {
+angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$location", "HtmlStorage","$log", "APIClient", "URL", "paths",
+    function($scope, $location, HtmlStorage, $log, APIClient, URL, paths) {
 
-        //  $scope.uiState = 'blank';
-        /* Scope model init */
+        /*Redireccion si no esta logeado*/
+        if(!HtmlStorage.getUser()){
+            $location.url(paths.login);
+        }
+
         $scope.model = [];
 
-        $scope.uiState = 'loading';
-
-        $scope.$emit("getUser");
-        $scope.hideMenu = true;
-
-        $scope.$on("sendUsername", function(evt, data) {
-            console.log('SALTA SENDUSERNAME');
-            console.log(data);
-            $scope.username = data;
-        });
+        $scope.uiState = 'loading';        
 
         $scope.getMovieDetailURL = function(movie) {
             return URL.resolve(paths.movieDetail, { id: movie.id });

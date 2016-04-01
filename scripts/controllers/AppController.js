@@ -2,26 +2,30 @@ angular.module("pelisAngular").controller("AppController",
 
     //Cada vez que queramos utilizar un servicio lo tenemos que inyectar tanto como parametro como
     //en la funcion
-    ["$scope", "HtmlStorage", "$location", "paths", function($scope, HtmlStorage, $location, paths) {
+    ["$scope", "$sce", "HtmlStorage", "$location", "paths", function($scope, $sce, HtmlStorage, $location, paths) {
         var controller = this;
 
         controller.titles = {};
 
         controller.titles[paths.movies] = "Movies List";
 
-
-
         //Model init
         $scope.model = {
             title: ""
         }
 
-        $scope.menu = false;
-
-
+        $scope.trustSrc = function(src) {
+            return $sce.trustAsResourceUrl(src);
+        }
+        
         $scope.$on("$locationChangeSuccess", function(evt, currentRoute) {
             console.log("$locationChangeSuccess", $location.path());
             $scope.model.title = controller.titles[$location.path()] || "404 Not Found";
+            if ($location.path() == paths.login) {
+                $scope.menu = false;
+            } else {
+                $scope.menu = true;
+            }
 
         });
 
@@ -30,10 +34,7 @@ angular.module("pelisAngular").controller("AppController",
         });
 
         $scope.login = function(username) {
-            
             HtmlStorage.saveUser(username);
-            $scope.menu = true;
-            console.log("login username", username);
             $location.url(paths.movieList);
         };
 

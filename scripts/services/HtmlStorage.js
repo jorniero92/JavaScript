@@ -9,5 +9,9 @@ angular.module("pelisAngular").service("HtmlStorage", ["$http", "$q", "apiPath",
     this.getUser = function() {
         return localStorage.getItem("username");
     };
+
+    this.removeUser = function() {
+        localStorage.removeItem("username");
+    };
     
 }]);
