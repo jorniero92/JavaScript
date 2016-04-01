@@ -7,6 +7,13 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
 
         $scope.uiState = 'loading';
 
+        $scope.$emit("getUser");
+
+        $scope.$on("sendUsername", function(evt, data){
+            console.log('SALTA SENDUSERNAME');
+            console.log(data);
+            $scope.username = data;
+        });
 
         $scope.getMovieDetailURL = function(movie) {
             return URL.resolve(paths.movieDetail, { id: movie.id });
@@ -14,13 +21,23 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
 
         $scope.rentMovie = function(movie) {
             console.log(movie.userRent);
-            console.log($scope);
             $scope.rentedId = movie.id;
 
             if (!movie.userRent) {
                 console.log("No esta alquilada");
-                /*Alquilamos pelicula*/
-                $scope.rented = true;
+                /*Alquilamos pelicula con un post*/
+                APIClient.rentMovie(movie, $scope.username).then(
+                    // promesa resuelta
+                    function(data) {
+                        $log.log("SUCCESS", data);
+                        $scope.rented = true;
+                    },
+                    // promesa rechazada
+                    function(data) {
+                        $log.error("ERROR", data);
+                        $scope.uiState = 'error';
+                    }
+                );
             } else {
                 console.log("Esta alquilada");
                 /*Devolvemos alert indicando error*/
@@ -28,7 +45,6 @@ angular.module("pelisAngular").controller("MoviesListController", ["$scope", "$l
             }
         };
 
-        /* controller start*/
         APIClient.getMovies().then(
             // promesa resuelta
             function(data) {
